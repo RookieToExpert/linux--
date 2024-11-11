@@ -14,7 +14,9 @@
 #### 关机指令：
 - sync
 - shutdown
+  
 ![0](./img/06Chapter/Capture.PNG)
+
 - half, poweroff
 与shutdown作用相似，只需记得shutdown的用法
 > 实际上halt, poweroff, reboot, shutdown都是调用systemctl这个命令
