@@ -90,7 +90,7 @@ ray@CloudFrontend:~$ blkid
 /dev/loop3: TYPE="squashfs"
 ```
 
-- **dumpe2fs**(查询Ext家族superblock信息)：
+-**dumpe2fs**(查询Ext家族superblock信息)：
 
 *使用方法*：
 
@@ -100,8 +100,8 @@ ray@CloudFrontend:~$ blkid
 
 - **目录**：
     - 文件系统会分配一个inode与至少一块block给该目录
-    - inode记录改目录的相关权限与属性，以及block号码
-    - block则是记录在这个目录下的文件名与该文件名占用的inode号码如下：
+    - inode记录改目录的**相关权限与属性**，以及block号码
+    - block则是记录在这个目录下的**文件名**与该文件名占用的**inode号码**如下：
 
         ![0](./img/09Chapter/Capture7.PNG)
     
@@ -128,3 +128,45 @@ ray@CloudFrontend:~$ blkid
     ###### 再读取 **/etc/passwd** 的block：
     由于我们具备 **/etc** 的**x**权限，所以我们能进入该目录继续读取目录下的内容， 对 **/etc/passwd** 有 **r** 权限，所以可以进一步读取 **/etc** 的block
 
+
+##### 创建文件过程
+1. 确定使用者对于新增文件/文件夹的目录是否有**w与x**的权限
+2. 查看**inode bitmap**和**block bitmap**找到没有使用的inode和block号码
+3. 创建完成后，将刚刚写入的inode与block数据同步更新到inode bitmap与block bitmap，并更新superblock的内容。
+> inode与block被称为数据存放区域，至于superblock，block bitmap与inode bitmap被称为metadata(中间数据)。
+
+#### 数据的不一致状态(inconsistent)
+- 日志式文件系统(**Journaling filesystem**)：
+    1. **预备**：当系统要写入一个文件时，会先在日志记录区块中纪录某个文件准备要写入的信息；
+    2. **实际写入**：开始写入文件的权限与数据；开始更新 metadata 的数据；
+    3. **结束**：完成数据与 metadata 的更新后，在日志记录区块当中完成该文件的纪录。
+
+#### 非同步处理(asynchronously)
+> 系统载入文件到内存，如果其中数据被更改，那么此时内存的数据被称为脏的(dirty)，
+此时系统不会立刻将修改的数据写入磁盘，而是不定时得将内存中设置为dirty的数据写入磁盘
+
+#### Linux VFS(Virtual Filesystem Switch)
+> 帮助读取每个partition是用什么filesystem
+
+##### XFS文件系统简介
+- **数据区**：
+    - inode/data block/superblock等数据都放置于此
+    - 和ext中block group类似，分为多个**allocation groups**(储存区群组)
+    - 每个储存区群组都包含：
+        1. 整个文件系统的**superblock**
+        2. **剩余空间**的管理机制
+        3. **inode**的分配与追踪
+    - **inode**与**block**都是系统**需要用时**，才**动态配置**产生，所以格式化很快
+    > 并不是像ext一样，在格式化就完成对inode与block的配置
+
+- **文件系统登录区(log section)**：
+    - 主要用于**记录文件系统的变化**，类似日志区
+    - 文件的**变化都会记录**下来，直到变化完整地写入到数据区后，**记录才会终结**
+    > xfs设计是可以支持你指定外部磁盘作为xfs文件系统地日志区块
+
+- **实时运行区(realtime section)**：
+    - 当有文件被创建时，xfs会在这个区段找**一个到数个extent区块**，将文件放置进去，等到**分配完毕后**，**再写入到data section地inode与block中**
+    - extent区块的大小在格式化地时候就需要指定
+
+- 使用**df -T /boot**查找该文件下面地文件系统superblock记录
+- 使用**xfs_info 挂载设备** 查看superblock内容
