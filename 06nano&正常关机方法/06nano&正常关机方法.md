@@ -15,7 +15,7 @@
 - sync
 - shutdown
   
-![0](./img/06Chapter/Capture.PNG)
+![0](/img/06Chapter/Capture.PNG)
 
 - half, poweroff
 与shutdown作用相似，只需记得shutdown的用法
