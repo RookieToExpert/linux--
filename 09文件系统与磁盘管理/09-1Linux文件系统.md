@@ -14,7 +14,7 @@
 
 *示意图*：
 
-![0](./img/09Chapter/Capture.PNG)
+![0](/img/09Chapter/Capture.PNG)
 
 > - 灰色是文件inode号码，指向文件数据存放的block号码
 > - 这种方式叫做**索引文件系统(indexed allocation)**
@@ -22,7 +22,7 @@
 
 *其他文件系统比如U盘示意图*：
 
-![0](./img/09Chapter/Capture1.PNG)
+![0](/img/09Chapter/Capture1.PNG)
 
 > **FAT格式**(没有inode的存在)
 > 需要读取一个block才知道下一个block的位置
@@ -32,7 +32,7 @@
 ##### Ext2文件系统：
 *Ext2格式化后示意图*：
 
-![0](./img/09Chapter/Capture2.PNG)
+![0](/img/09Chapter/Capture2.PNG)
 
 - **boot sector(开机扇区)**：
     - 开机扇区可以安装开机管理程序
@@ -41,7 +41,7 @@
     - Ext2文件系统所支持的block大小有1K,2K及4K(**只能选一种**)，在格式化后就固定了。
     - 由于block大小差异，导致该文件系统支持的最大磁盘容量和单一文件大小并不相同：
 
-        ![0](./img/09Chapter/Capture3.PNG)
+        ![0](/img/09Chapter/Capture3.PNG)
         
         - 一个block只能存放一个文件
         - 如果**文件大于block**，则需要占用多个block，反之，**文件小于block**，则剩余容量会浪费
@@ -50,13 +50,13 @@
     - 记录文件属性以及文件实际数据放在几号block
     - 记录的文件属性有如下：
 
-         ![0](./img/09Chapter/Capture4.PNG)
+         ![0](/img/09Chapter/Capture4.PNG)
 
     - 每个inode大小**固定为128 Bytes**(新的ext4和xfs可设置成256 Bytes)
     - 每个文件仅**占用一个inode**
     - inode结构图：
 
-        ![0](./img/09Chapter/Capture5.PNG)
+        ![0](/img/09Chapter/Capture5.PNG)
 
     
 - **superblock(超级区块)**：
@@ -94,7 +94,7 @@ ray@CloudFrontend:~$ blkid
 
 *使用方法*：
 
-![0](./img/09Chapter/Capture6.PNG)
+![0](/img/09Chapter/Capture6.PNG)
 
 ##### 目录数
 
@@ -103,7 +103,7 @@ ray@CloudFrontend:~$ blkid
     - inode记录改目录的**相关权限与属性**，以及block号码
     - block则是记录在这个目录下的**文件名**与该文件名占用的**inode号码**如下：
 
-        ![0](./img/09Chapter/Capture7.PNG)
+        ![0](/img/09Chapter/Capture7.PNG)
     
 
 - **文件**：
@@ -114,7 +114,7 @@ ray@CloudFrontend:~$ blkid
     > 要读取某个文件时，务必会经过目录的inode与block，才能找到文件的inode号码，最终能够读取正确文件的block内的内容
     ##### 读取/etc/passwd的过程：
 
-    ![0](./img/09Chapter/Capture8.PNG)
+    ![0](/img/09Chapter/Capture8.PNG)
 
         
     ###### 先找到 **/** 的inode：
