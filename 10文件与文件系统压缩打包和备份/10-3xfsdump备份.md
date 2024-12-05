@@ -47,7 +47,7 @@ xfsdump: Dump Status: SUCCESS
 [root@CentOSTest srv]# ll /srv/boot.dump 
 -rw-r--r--. 1 root root 44909672 11月 27 02:00 /srv/boot.dump
 ```
-2. *查看**/var/lib/xfsdump/inventory**下产生的而文件：*
+2. *查看 **/var/lib/xfsdump/inventory**下产生的而文件：*
 ```Shell
 # 查看使用xfsdump之后才产生的/var/lib/xfsdump/inventory的文件(记录备份相关信息比如文件系统/时间/session ID等等，作为下次备份的参考)
 [root@CentOSTest srv]# ll /var/lib/xfsdump/inventory/
