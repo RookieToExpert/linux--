@@ -85,3 +85,55 @@ ray@HongKongVPS:~$ echo $PATH
 观察所有变量(环境变量和自订变量)：
 
 ![0](/img/12Chapter/Capture5.PNG)
+
+- 其中**PS1**为**提示字符设置**，以下为符号意义：
+
+    ![0](/img/12Chapter/Capture6.PNG)
+
+    比如我想换成以下表达方式：
+    > [dmtsai@study /home/dmtsai 16:50 #12]$
+
+    *操作方法：*
+    ```Shell
+    [dmtsai@study ~]$ cd /home
+    [dmtsai@study home]$ PS1='[\u@\h \w \A #\#]\$ '
+    [dmtsai@study /home 17:02 #85]$
+    # 看到了吗？提示字符变了！变的很有趣吧！其中，那个 #85 比较有趣，
+    # 如果您再随便输入几次 ls 后，该数字就会增加喔！为啥？上面有说明滴！
+    ```
+
+- __$__ 本身也是变量，表示当前**shell的PID**：
+
+    *操作方法：*
+    **echo $$** 即可得到当前PI号码
+
+- **?** 表示上个执行指令的回传值：
+
+    操作方法：
+    ```Shell
+    # 如果代码顺利执行，则会返回0，否则会返回错误代码(非0)
+    ray@CloudFrontend:~$ echo $SHEEL
+
+    ray@CloudFrontend:~$ echo $?
+    0
+    ray@CloudFrontend:~$ 12name=ray
+    12name=ray: command not found
+    ray@CloudFrontend:~$ echo $?
+    127
+    ray@CloudFrontend:~$ 
+    ```
+
+- **export** 将自定变量变成环境变量供子程序执行
+
+    *父程序和子程序的关系图：*
+
+    ![0](/img/12Chapter/Capture7.PNG)
+
+    > 子程序不会继承父程序的自定变量，所以需要使用export
+
+### locale
+> 影响显示结果的语系变量
+- 存放所有语系文件位置: **/usr/lib/locale**
+- 语系定义位置: **/etc/locale.conf**
+
+### read,array,edclare
