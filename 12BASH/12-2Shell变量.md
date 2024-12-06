@@ -136,4 +136,146 @@ ray@HongKongVPS:~$ echo $PATH
 - 存放所有语系文件位置: **/usr/lib/locale**
 - 语系定义位置: **/etc/locale.conf**
 
-### read,array,edclare
+### 变量键盘读取、阵列与宣告：read,edclare,array
+- **read**
+*使用方法*：
+
+    ![0](/img/12Chapter/Capture8.PNG)
+
+    **使用范例**：
+    ```Shell
+    # 输入read myname后，光标就会等待你键盘输入
+    # -p接提示语，-t接时间
+    ray@HongKongVPS:~$ read -p "what is your name:" -t 30 myname
+    what is your name:rayray
+    ray@HongKongVPS:~$ echo $myname
+    rayray
+    ```
+
+- **declare**
+    > 直接用declare和set输出一样
+
+    *使用方法：*
+
+    ![0](/img/12Chapter/Capture9.PNG)
+
+    *使用范例：*
+    1. 使用**declare - i** 将variable定义为**integer类型**
+    ```Shell
+    ray@HongKongVPS:~$ declare -i sum=100+300+200
+    ray@HongKongVPS:~$ echo $sum
+    600
+    ```
+
+    2. 使用**declare - x** 将变量变**成环境变量**
+    ```Shell
+    ray@HongKongVPS:~$ declare -x sum
+    ray@HongKongVPS:~$ export | grep sum
+    declare -ix sum="600"
+    ```
+
+    3. 使用**declare -r** 将变量变成**只读**变量：
+    > 只能通过登出再登陆才能取消只读
+    ```Shell
+    ray@HongKongVPS:~$ declare -r sum
+    ray@HongKongVPS:~$ sum=111
+    -bash: sum: readonly variable
+    ```
+
+    4. 选项变成 **+加号可以取消操作**，比如**declare +x** 使变量从环境变量回到自订变量
+    ```Shell
+    ray@HongKongVPS:~$ declare +x sum
+    # 可以通过declare -p查看变量类型
+    ray@HongKongVPS:~$ declare -p sum
+    declare -ir sum="600"
+    ```
+
+- **array**
+    1. **定义**一个array：
+    ```Shell
+    ray@HongKongVPS:~$ var=(1 2 3)
+    ```
+
+    2. **访问**该array, 必须通过 **{array[]}**的方式访问：
+    ```Shell
+    ray@HongKongVPS:~$ echo ${var[@]}
+    1 2 3
+    ray@HongKongVPS:~$ echo ${var[0]}
+    1
+    ray@HongKongVPS:~$ echo ${var[1]}
+    2
+    ray@HongKongVPS:~$ echo ${var[2]}
+    3
+    ```
+
+## 文件系统和程序的限制关系：ulimit
+> 比如如果10个人同时登陆了该机器，但是同时打开了100个文件，这样内存就不够用了，这是会就需要使用ulimit来限制
+
+*使用方法：*
+
+![0](/img/12Chapter/Capture10.PNG)
+
+*使用范例：*
+1. 列出所有限制(0=unlimited)：
+```Shell
+ray@HongKongVPS:~$ ulimit -a
+real-time non-blocking time  (microseconds, -R) unlimited
+core file size              (blocks, -c) 0
+data seg size               (kbytes, -d) unlimited
+scheduling priority                 (-e) 0
+file size                   (blocks, -f) unlimited
+pending signals                     (-i) 3544
+max locked memory           (kbytes, -l) 114116
+max memory size             (kbytes, -m) unlimited
+open files                          (-n) 1024
+pipe size                (512 bytes, -p) 8
+POSIX message queues         (bytes, -q) 819200
+real-time priority                  (-r) 0
+stack size                  (kbytes, -s) 8192
+cpu time                   (seconds, -t) unlimited
+max user processes                  (-u) 3544
+virtual memory              (kbytes, -v) unlimited
+file locks                          (-x) unlimited
+```
+
+2. 限制使用者仅能创建10MBytes以下的容量文件
+```Shell
+ray@HongKongVPS:~$ ulimit -f 10240
+# 需要重新登陆才能解开10M的限制
+```
+
+## 变量内容的删除、取代与替换
+
+- 变量的删除和取代：
+    1. **#删除最短匹配部分前**的所有内容：
+    ```Shell
+    ray@HongKongVPS:~$ echo $path
+    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+    ray@HongKongVPS:~$ echo ${path#/*local/bin:}
+    /usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+    ```
+    2. **##删除最长匹配部分前**的所有内容：
+    ```Shell
+    ray@HongKongVPS:~$ echo ${path##/*:}
+    /snap/bin
+    ```
+
+    3. **%**则是**从后向前删除**，同样 **%%**是删除匹配最长部分：
+    ```Shell
+    ray@HongKongVPS:~$ echo ${path%:*bin}
+    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+    ray@HongKongVPS:~$ echo ${path%%:*bin}
+    /usr/local/sbin
+    ```
+
+    4. /是用来取代第一个匹配的结果，//则是取代所有：
+    ```Shell
+    ray@HongKongVPS:~$ echo ${path/sbin/rrrrrrrrr}
+    /usr/local/rrrrrrrrr:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+    ray@HongKongVPS:~$ echo ${path//sbin/rrrrrrrrr}
+    /usr/local/rrrrrrrrr:/usr/local/bin:/usr/rrrrrrrrr:/usr/bin:/rrrrrrrrr:/bin:/usr/games:/usr/local/games:/snap/bin
+    ```
+
+    *示意图：*
+
+    ![0](/img/12Chapter/Capture11.PNG)
