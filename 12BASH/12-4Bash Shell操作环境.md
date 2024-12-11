@@ -6,7 +6,7 @@
 4. 通过 **$PATH** 这个变量顺序**搜索第一个指令**
 > 可以通过**type -a command** 查找这个command的先后顺序
 
-## bash的进站与欢迎讯息: /etc/issue, /etc/motd
+## bash的进站与欢迎讯息: /etc/issue, /etc/motd(Unbuntu 在/etc/update-motd.d里面)
 ### /etc/issue
 > 除了/etc/issue还有一个/etc/issue.net是提供给telnet远程登陆程序使用的
 *issue内代码意义:*
@@ -18,3 +18,36 @@
 ray@CloudFrontend:~$ cat /etc/issue
 Ubuntu 22.04.5 LTS \n \l
 ```
+
+## login Shell & non-login shell
+> login shell就是需要通过tty1 ~ tty6输入使用者的账号和密码登录，此时的shell被称作login Shell
+
+> non login shell就是比如在shell里面再输入一个shell这种类似的
+
+
+- login shell会读取以下两个配置文件：
+    1. **/etc/profile**，属于**系统整体设置**，最好不要修改
+        1. **/etc/profile.d/*.sh**:
+            - 执行该目录下所有 **.sh结尾文件**
+            - 规范了bash操作接口的**颜色、语系、ll、vi、which与ls的命名别名**
+            - 如果需要其他**共享命名别名**，在此目录下**创建.sh文件**
+        2. **/etc/locale.conf**：
+            - 由 **/etc/profile.d/lang.sh**调用进来的
+            - 决定bash使用何种语系，最重要的就是**LANG/LC_ALL**的变量
+        3. **/usr/share/bash-completion/completions/***：
+            - 由 **/etc/profile.d/bash_completion.sh** 载入的
+            - **[tab]**就在这里面，还有一些指令选项/参数补齐功能
+    2. **~/.bash_profile**或 **~/.bash_login** 或 **~/.profile**，属于**使用者个人设置**
+        > bash的login shell只会读取三个文件中的一个，读取的顺序就是上面列的，如果读去前面的任意一个，后面的都不会读取
+
+*login shell的完整读取流程：*
+
+![0](/img/12Chapter/Capture16.PNG)
+
+> 实线的方向是主线流程，虚线的方向则是被调用的配置文件，所以可以看到被最终调用的是~/.bash_profile这个文件
+
+### source
+> 由于/etc/profile和~/.bash_profile都是取得login shell才会读取的文件，所以如果有修改其中配置，需要运行source才能生效
+*使用方法：*
+
+![0](/img/12Chapter/Capture17.PNG)
