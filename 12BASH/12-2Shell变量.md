@@ -246,7 +246,7 @@ ray@HongKongVPS:~$ ulimit -f 10240
 
 ## 变量内容的删除、取代与替换
 
-- 变量的删除和取代：
+- 变量的**删除**和**取代**：
     1. **#删除最短匹配部分前**的所有内容：
     ```Shell
     ray@HongKongVPS:~$ echo $path
@@ -260,7 +260,7 @@ ray@HongKongVPS:~$ ulimit -f 10240
     /snap/bin
     ```
 
-    3. **%**则是**从后向前删除**，同样 **%%**是删除匹配最长部分：
+    3. **%**则是**从后向前删除**，同样 **%%** 是删除匹配最长部分：
     ```Shell
     ray@HongKongVPS:~$ echo ${path%:*bin}
     /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
@@ -268,7 +268,7 @@ ray@HongKongVPS:~$ ulimit -f 10240
     /usr/local/sbin
     ```
 
-    4. /是用来取代第一个匹配的结果，//则是取代所有：
+    4. **/** 是用来取代第一个匹配的结果，**//** 则是取代所有：
     ```Shell
     ray@HongKongVPS:~$ echo ${path/sbin/rrrrrrrrr}
     /usr/local/rrrrrrrrr:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -279,3 +279,13 @@ ray@HongKongVPS:~$ ulimit -f 10240
     *示意图：*
 
     ![0](/img/12Chapter/Capture11.PNG)
+
+- 变量的**替换**:
+
+    > 主要是使用"-"来判断
+    
+    *示意图:*
+    
+    ![0](/img/12Chapter/Capture12.PNG)
+
+    未来用到判断变量时,再回来看
