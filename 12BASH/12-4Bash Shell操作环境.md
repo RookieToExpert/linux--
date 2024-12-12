@@ -18,14 +18,14 @@
 ray@CloudFrontend:~$ cat /etc/issue
 Ubuntu 22.04.5 LTS \n \l
 ```
-
+---
 ## login Shell & non-login shell
 > login shell就是需要通过tty1 ~ tty6输入使用者的账号和密码登录，此时的shell被称作login Shell
 
 > non login shell就是比如在shell里面再输入一个shell这种类似的
 
-
-- login shell会读取以下两个配置文件：
+### login Shell
+- **login shell**会读取以下两个配置文件：
     1. **/etc/profile**，属于**系统整体设置**，最好不要修改
         1. **/etc/profile.d/*.sh**:
             - 执行该目录下所有 **.sh结尾文件**
@@ -46,8 +46,77 @@ Ubuntu 22.04.5 LTS \n \l
 
 > 实线的方向是主线流程，虚线的方向则是被调用的配置文件，所以可以看到被最终调用的是~/.bash_profile这个文件
 
-### source
+#### source
 > 由于/etc/profile和~/.bash_profile都是取得login shell才会读取的文件，所以如果有修改其中配置，需要运行source才能生效
 *使用方法：*
 
 ![0](/img/12Chapter/Capture17.PNG)
+
+---
+### non-login shell
+- non-login shell会读取以下配置文件:
+    1.**~/.bashrc**(**non-login shell**的bash操作接口环境的**配置文件**)
+    2. ~/.bash_history
+
+
+### 其他相关配置文件
+- **/etc/man_db.conf**：
+规定了下达man命令时，man page的路径在哪里
+- **~/.bash_history**：
+历史命令存储在这里
+- **~/.bash_logout**：
+登出bash后，系统会执行什么命令
+
+## 终端机的环境设置：stty, set
+### stty(setting tty终端机的意思)
+*使用方法*：
+
+![0](/img/12Chapter/Capture18.PNG)
+
+![0](/img/12Chapter/Capture19.PNG)
+
+参数含义：
+- **intr**: 送出一个 interrupt （中断） 的讯号给目前正在 run 的程序 （就是终止啰！）；
+- **quit**: 送出一个 quit 的讯号给目前正在 run 的程序；
+- **erase**: 向后删除字符，
+- **kill**: 删除在目前命令行上的所有文字；
+- **eof**: End of file 的意思，代表“结束输入”。
+- **start**: 在某个程序停止后，重新启动他的 output
+- **stop**: 停止目前屏幕的输出；
+- **susp**: 送出一个 terminal stop 的讯号给正在 run 的程序。
+
+使用范例：
+```Shell
+# 将erase改成 ctrl h
+[dmtsai@study ~]$ stty erase ^h
+```
+
+### set
+*使用方法*：
+
+![0](/img/12Chapter/Capture20.PNG)
+
+使用范例：
+1. 显示目前所有的set设置值：
+```Shell
+ray@HongKongVPS:~$ echo $-
+himBHs
+```
+2. 设置“若使用未定义变量时，显示错误信息”：
+```Shell
+[dmtsai@study ~]$ set -u
+[dmtsai@study ~]$ echo $vbirding
+-bash: vbirding: unbound variable
+# 取消，则输入set +u即可
+```
+
+3. 设置“执行指令前，显示该指令内容”：
+```Shell
+[dmtsai@study ~]$ set -x
+++ printf '\033]0;%s@%s:%s\007' dmtsai study '~'    # 这个是在列出提示字符的控制码！
+[dmtsai@study ~]$ echo ${HOME}
++ echo /home/dmtsai
+/home/dmtsai
+++ printf '\033]0;%s@%s:%s\007' dmtsai study '~'
+```
+
