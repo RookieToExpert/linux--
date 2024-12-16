@@ -10,7 +10,8 @@
 ### echo
 ##### 变量查找：
 *使用方法：*
-echo + $ + <variable>
+
+**echo + $ + <variable>**
 
 *使用范例：*
 ```Shell
@@ -20,7 +21,8 @@ ray@HongKongVPS:~$ echo $PATH
 
 ##### 变量设置/修改：
 *使用方法：*
-<variable>=xxx
+
+**variable=xxx**
 
 *使用范例：*
 ```Shell
@@ -36,7 +38,7 @@ ray
 
 - 变量名称只能是英文或者数字，但开头不能是数字
 
-- 变量内容如果需要有**空白字符**，可以使用**单引号''**括起来，如果还要引用**特殊字符比如$**，则需要使用**双引号""**，不然会被当成一般字符：
+- 变量内容如果需要有**空白字符**，可以使用**单引号'**括起来，如果还要引用**特殊字符比如$**，则需要使用**双引号"**，不然会被当成一般字符：
 ```Shell
 ray@HongKongVPS:~$ echo var="lang is $LANG"
 var=lang is C.UTF-8
@@ -73,7 +75,7 @@ ray@HongKongVPS:~$ echo $PATH
 - 使用**unset + 变量**取消变量的设置
 
 ## 环境变量的功能
-### env
+### env(export也可以)
 *使用范例：*
 **查看**环境变量和说明：
 
@@ -95,9 +97,9 @@ ray@HongKongVPS:~$ echo $PATH
 
     *操作方法：*
     ```Shell
-    [dmtsai@study ~]$ cd /home
-    [dmtsai@study home]$ PS1='[\u@\h \w \A #\#]\$ '
-    [dmtsai@study /home 17:02 #85]$
+    ray@HongKongVPS 07:41:52 :~$ PS1="\[\e]0;\u@\h: \w\a\]\${debian_chroot:+(\$debian_chroot)}\u@\h \t #\#:\w\$ "
+    ray@HongKongVPS 07:42:20 49:~$ cls
+    ray@HongKongVPS 07:42:23 50:~$ 
     # 看到了吗？提示字符变了！变的很有趣吧！其中，那个 #85 比较有趣，
     # 如果您再随便输入几次 ls 后，该数字就会增加喔！为啥？上面有说明滴！
     ```
@@ -209,7 +211,7 @@ ray@HongKongVPS:~$ echo $PATH
     ```
 
 ## 文件系统和程序的限制关系：ulimit
-> 比如如果10个人同时登陆了该机器，但是同时打开了100个文件，这样内存就不够用了，这是会就需要使用ulimit来限制
+> 比如如果10个人同时登陆了该机器，但是同时打开了100个文件，这样内存就不够用了，这时会就需要使用ulimit来限制
 
 *使用方法：*
 
