@@ -57,7 +57,6 @@ ls is /bin/ls
 # cd 是 shell 内置指令
 ray@Test-Backup-VM:/tmp$ type cd 
 cd is a shell builtin
-ray@Test-Backup-VM:/tmp$ 
 ```
 
 ## 指令的下达与快速编辑按钮
