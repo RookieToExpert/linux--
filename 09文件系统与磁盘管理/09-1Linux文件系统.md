@@ -165,8 +165,8 @@ ray@CloudFrontend:~$ blkid
     > xfs设计是可以支持你指定外部磁盘作为xfs文件系统地日志区块
 
 - **实时运行区(realtime section)**：
-    - 当有文件被创建时，xfs会在这个区段找**一个到数个extent区块**，将文件放置进去，等到**分配完毕后**，**再写入到data section地inode与block中**
-    - extent区块的大小在格式化地时候就需要指定
+    - 当有文件被创建时，xfs会在这个区段找**一个到数个extent区块**，将文件放置进去，等到**分配完毕后**，**再写入到data section的inode与block中**
+    - extent区块的大小在格式化的时候就需要指定
 
 - 使用**df -T /boot**查找该文件下面地文件系统superblock记录
 - 使用**xfs_info 挂载设备** 查看superblock内容
