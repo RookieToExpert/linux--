@@ -36,7 +36,7 @@ Ubuntu 22.04.5 LTS \n \l
             - 决定bash使用何种语系，最重要的就是**LANG/LC_ALL**的变量
         3. **/usr/share/bash-completion/completions/***：
             - 由 **/etc/profile.d/bash_completion.sh** 载入的
-            - **[tab]**就在这里面，还有一些指令选项/参数补齐功能
+            - **[tab]** 就在这里面，还有一些指令选项/参数补齐功能
     2. **~/.bash_profile**或 **~/.bash_login** 或 **~/.profile**，属于**使用者个人设置**
         > bash的login shell只会读取三个文件中的一个，读取的顺序就是上面列的，如果读去前面的任意一个，后面的都不会读取
 
