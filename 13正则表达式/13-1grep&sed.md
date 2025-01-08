@@ -28,6 +28,7 @@ ray@HongKongVPS:~$ sudo dmesg | grep -n -A3 -B3 'memory node range'
 
 
 *使用案例：*
+使用sed将某些特定行数删掉再显示
 ```Shell
 # 将stdin 2，5行删除
 ray@HongKongVPS:~$ nl /etc/passwd | sed '2,5d'
@@ -39,6 +40,7 @@ ray@HongKongVPS:~$ nl /etc/passwd | sed '2,5d'
     10  news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
 ```
 
+使用sed在特定行数前后插入单词再显示
 ```Shell
 # 往第二行后插入单词
 ray@HongKongVPS:~$ nl /etc/passwd | sed '2a drink tea'
@@ -52,6 +54,7 @@ drink tea
      2  daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 ```
 
+使用sed将某些特定行数替换成其他文本
 ```Shell
 # 将第二行替代成其他词
 ray@HongKongVPS:~$ nl /etc/passwd | sed '2,5c No 2-5 number'
@@ -61,6 +64,7 @@ No 2-5 number
      7  man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
 ```
 
+使用sed只显示指定行数
 ```Shell
 # 抓出指定的行数
 ray@HongKongVPS:~$ nl /etc/passwd | sed -n '5,7p'
@@ -69,6 +73,7 @@ ray@HongKongVPS:~$ nl /etc/passwd | sed -n '5,7p'
      7  man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
 ```
 
+使用sed将指定文本替换成对应文本再显示
 ```Shell
 # 替换文本
 ray@HongKongVPS:~$ /sbin/ifconfig eth0 | grep 'inet '
@@ -77,6 +82,7 @@ ray@HongKongVPS:~$ /sbin/ifconfig eth0 | grep 'inet ' | sed 's/^.*inet //g'
 10.0.0.6  netmask 255.255.255.0  broadcast 10.0.0.255
 ```
 
+使用sed直接将源文件的指定文本替换成对应文本
 ```Shell
 # 直接修改源文件
 ray@HongKongVPS:~$ sed -i 's/\.$/\!/g' regular_express.txt 
