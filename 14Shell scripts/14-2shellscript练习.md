@@ -53,7 +53,7 @@ touch "${file3}"
 # History:
 # 2025/01/22    Ray     First release
 
-echo -e "You SHOULD iinput 2 numbers, I will multiiplying them! \n"
+echo -e "You SHOULD input 2 numbers, I will multiplying them! \n"
 read -p "first number:  " firstnu
 read -p "second number: " secnu
 
