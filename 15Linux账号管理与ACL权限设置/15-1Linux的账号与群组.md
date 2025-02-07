@@ -44,3 +44,60 @@
     7. **密码过期后的账号宽限时间**：过了宽限时间，此密码就**从过期变为失效**
     8. **账号失效日期**：规定一个账号的有效时间
     9. **保留**：看以后有没有新的功能加入
+
+
+### /etc/group 和 /etc/gshadow
+
+#### /etc/group
+
+*示意图：*
+
+![0](/img/15Chapter/Capture2.PNG)
+
+1. 每一行同样用':'分割：
+    1. **群组名称**
+    2. **群组密码**：是给群组管理员使用，**具体密码放到了/etc/gshadow**里
+    3. **GID群组ID**
+    4. **群组支持的账号名称**：一个账号可以加入多个群组，**将账号放到此字段即加入了此群组**。注意不要用空格，**ex":ray,jenny"**       
+
+#### /etc/gshadow
+
+*示意图：*
+
+![0](/img/15Chapter/Capture4.PNG)
+
+1. 每一行同样用':'分割：
+    1. **群组名称**
+    2. **密码栏**：**"*"**或者 **"!"** 表示没有有效密码，并且意味着**不能用newgrp命令输入密码切换到这个组**
+    3. **群组管理员账号**
+    4. **加入该群组的所属账号**：与/etc/group内容相同
+### UID / GID 的关系
+
+*示意图：*
+
+![0](/img/15Chapter/Capture3.PNG)
+
+
+### 有效群组(effective group)和初始群组(initial group)
+#### 初始群组，支持群组和有效群组的区别：
+1. 初始群组就是/etc/passwd中第四栏，不需要单独去/etc/group后面加username
+2. 支持群组是所有账号加入其他的群组，使用groups可以查看当前用户所有的支持用户
+    1. 其中展示的第一个结果是有效群组，通常都是初始群组
+    2. 当用户创建文件的时候，默认文件是属于用户的有效群组
+
+#### 如何修改有效群组：
+##### newgrp
+*使用方法：*
+newgrp <group name>
+
+使用范例：
+```Shell
+[dmtsai@study ~]$ newgrp users
+[dmtsai@study ~]$ groups
+users wheel dmtsai
+[dmtsai@study ~]$ touch test2
+[dmtsai@study ~]$ ll test*
+-rw-rw-r--. 1 dmtsai dmtsai 0 Jul 20 19:54 test
+-rw-r--r--. 1 dmtsai users  0 Jul 20 19:56 test2
+```
+
