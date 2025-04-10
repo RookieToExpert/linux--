@@ -21,7 +21,7 @@ ray@HongKongVPS:~$ sudo dmesg | grep -n -A3 -B3 'memory node range'
 ```
 
 
-## sed工具
+## sed工具(stream editor流编辑器)
 *使用方法：*
 
 ![0](/img/13Chapter/Capture1.PNG)
